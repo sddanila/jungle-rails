@@ -1,4 +1,4 @@
-require 'test-helpers/all'
+require 'test_helpers'
 
 class UserTest < ActiveSupport::TestCase
 
