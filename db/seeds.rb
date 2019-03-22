@@ -33,6 +33,7 @@ cat3 = Category.find_or_create_by! name: 'Furniture'
 
 puts "Re-creating Products ..."
 
+Review.destroy_all
 Product.destroy_all
 
 cat1.products.create!({
@@ -93,7 +94,6 @@ cat2.products.create!({
 })
 
 cat2.products.create!({
-  id: 44,
   name:  'Hotdog Slicer',
   description: Faker::Hipster.paragraph(4),
   image: open_asset('electronics2.jpg'),
@@ -141,7 +141,7 @@ user = User.create!({
   password: '123456'
 })
 
-product = Product.find_by_id!(44);
+product = Product.find_by!(name: 'Hotdog Slicer');
 product.reviews.create!({
   user_id: user.id,
   description: 'It cuts up my tasty hotdogs beautifully!',

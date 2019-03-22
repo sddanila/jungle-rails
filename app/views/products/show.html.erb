@@ -23,6 +23,31 @@
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
         </dl>
+        <hr>
+        <br>
+      </div>
+
+      <div class="col-sm-8">
+        <dl class="dl-horizontal">
+          <%= form_for([@product, @review]) do |f| %>
+            <%= f.hidden_field :product_id, value: @product.id %>
+            <%= f.number_field :rating %>
+            <%= f.text_field :description %>
+            <%= f.submit "Review" %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-8">
+        <dl class="dl-horizontal">
+          <% @product.reviews.each do |review| %>
+          <dt>Rating</dt>
+          <dd><%= review.rating %></dd>
+          <dt>Review</dt>
+          <dd><%= review.description %></dd>
+          <hr>
+          <% end %>
+        </dl>
       </div>
     </div>
 
