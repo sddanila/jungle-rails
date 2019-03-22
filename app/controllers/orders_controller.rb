@@ -55,6 +55,8 @@ class OrdersController < ApplicationController
       )
     end
     order.save!
+    Notifier.confirm_order(@order, @line_items).deliver_now
+    puts Notifier.confirm_order(@order, @line_items)
     order
   end
 
