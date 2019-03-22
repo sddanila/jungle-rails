@@ -1,13 +1,5 @@
 <html>
   <body>
-    <p> Thank you for your order!</p>
-    <br>
-    <p>Your order is now processing and will be shipped shortly.</p>
-    <br>
-    <% if product = Product.find_by(id: line_items.product_id) %>
-    <p><%= product.name %> - $<%= item_total / 100.00%></p>
-    <br>
-    <p>Your order total is: $<%=@order.total_cents / 100.0%>
-    <% end %>
+    <%= yield %>
   </body>
 </html>

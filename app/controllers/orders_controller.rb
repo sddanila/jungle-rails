@@ -55,8 +55,8 @@ class OrdersController < ApplicationController
       )
     end
     order.save!
-    Notifier.confirm_order(@order, @line_items).deliver_now
-    puts Notifier.confirm_order(@order, @line_items)
+    puts "THIS IT THE ORDER", params[:id]
+    UserMailer.confirm_order(params[:stripeEmail], params[:id]).deliver_now
     order
   end
 

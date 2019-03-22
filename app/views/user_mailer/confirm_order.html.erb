@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p> Thank you for your order!</p>
+    <br>
+    <% if line_items = LineItem.find_by(order_id: @order)%>
+      <% line_items.each do |line_item| %>
+        <% if product = Product.find_by(id: line_item.product_id) %>
+          <p> <%= product.name %> </p>
+          <p> <%= line_item.quantity %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+    <p>Your order is now processing and will be shipped shortly.</p>
+    <br>
+    <% if total_cents = Order.find_by(id: @order) %>
+      <p>Your order total is: $<%=totalcents%> / 100 </p>
+    <% end %>
+  </body>
+</html>
