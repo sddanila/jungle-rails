@@ -93,6 +93,7 @@ cat2.products.create!({
 })
 
 cat2.products.create!({
+  id: 44,
   name:  'Hotdog Slicer',
   description: Faker::Hipster.paragraph(4),
   image: open_asset('electronics2.jpg'),
@@ -132,5 +133,31 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+User.destroy_all
+user = User.create!({
+  first_name: 'Mazli',
+  last_name: 'Barton',
+  email: 'mazli@gmail.com',
+  password: '123456'
+})
+
+product = Product.find_by_id!(44);
+product.reviews.create!({
+  user_id: user.id,
+  description: 'It cuts up my tasty hotdogs beautifully!',
+  rating: 5
+})
+
+product.reviews.create!({
+  user_id: user.id,
+  description: 'I prefer my hotdogs in whole',
+  rating: 2
+})
+
+product.reviews.create!({
+  user_id: user.id,
+  description: 'I love hotdogs PERIOD',
+  rating: 4
+})
 
 puts "DONE!"
