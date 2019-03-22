@@ -25,7 +25,7 @@
             TOTAL:
           </th>
           <th>
-            <%= cart_subtotal_cents / 100.0 %>
+            $<%= cart_subtotal_cents / 100.0 %>
           </th>
         </tr>
       </tfoot>
@@ -34,18 +34,23 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <%= form_tag orders_path do %>
-        <script
-          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-amount="<%= cart_subtotal_cents %>"
-          data-name="Jungle"
-          data-description="Khurram Virani's Jungle Order"
-          data-locale="auto"
-          data-email="kvirani@gmail.com"
-          data-currency="cad">
-        </script>
+      <% if cart_subtotal_cents == 0 %>
+        <p>Your cart is now empty. To browse our items, visit the home page.</p>
       <% end %>
+      <%= link_to_if(cart_subtotal_cents == 0, "Products", { controller: "products"}) do %>    
+        <%= form_tag orders_path do %>
+          <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-amount="<%= cart_subtotal_cents %>"
+            data-name="Jungle"
+            data-description="Khurram Virani's Jungle Order"
+            data-locale="auto"
+            data-email="kvirani@gmail.com"
+            data-currency="cad">
+          </script>
+      <% end %>
+    <% end %>
     </div>
   </div>
 
