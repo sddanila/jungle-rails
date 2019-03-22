@@ -2,6 +2,8 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    @current_user = User.find_by(id: session[:user_id])
+    @line_items = LineItem.where(order_id: @order.id)
   end
 
   def create
