@@ -6,18 +6,15 @@
   <body>
     <p> Thank you for your order!</p>
     <br>
-    <% if line_items = LineItem.find_by(order_id: @order)%>
-      <% line_items.each do |line_item| %>
-        <% if product = Product.find_by(id: line_item.product_id) %>
-          <p> <%= product.name %> </p>
-          <p> <%= line_item.quantity %></p>
-        <% end %>
-      <% end %>
+    <% puts @order %>
+    <% puts @line_items %>
+    <% @order.line_items.each do |item|%>
+        <p>Product name: <%= item.product.name %> </p>
+        <p>Product description: <%= item.product.description %> </p>
+        <p>Quantity: <%= item.quantity %></p>
     <% end %>
-    <p>Your order is now processing and will be shipped shortly.</p>
+    <p>Your order is now processing and will be shipped shortly. Absolutely no refunds!</p>
     <br>
-    <% if total_cents = Order.find_by(id: @order) %>
-      <p>Your order total is: $<%=totalcents%> / 100 </p>
-    <% end %>
+    <p>Your order total is: $ <%= @order.total_cents / 100.00 %> </p>
   </body>
 </html>

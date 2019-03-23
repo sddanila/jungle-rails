@@ -4,8 +4,8 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(allowed_params)
     @review.user_id = current_user.id
-    @review.save!
     @product = Product.find(params[:product_id])
+    @review.save!
     redirect_to @product
   end
 

@@ -2,16 +2,19 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    @line_items = LineItem.where(order_id: params[:id])
     @current_user = User.find_by(id: session[:user_id])
-    @line_items = LineItem.where(order_id: @order.id)
   end
 
   def create
     charge = perform_stripe_charge
     order  = create_order(charge)
+    @current_user = User.find_by(id: session[:user_id])
+    order.email = current_user ? @current_user.email : charge.source.name
 
     if order.valid?
       empty_cart!
+      UserMailer.confirm_order(order.email, order).deliver_now
       redirect_to order, notice: 'Your Order has been placed.'
     else
       redirect_to cart_path, flash: { error: order.errors.full_messages.first }
@@ -32,7 +35,7 @@ class OrdersController < ApplicationController
     Stripe::Charge.create(
       source:      params[:stripeToken],
       amount:      cart_subtotal_cents,
-      description: "Khurram Virani's Jungle Order",
+      description: "Your Jungle Order'",
       currency:    'cad'
     )
   end
@@ -55,7 +58,6 @@ class OrdersController < ApplicationController
       )
     end
     order.save!
-    UserMailer.confirm_order(params[:stripeEmail], params[:id]).deliver_now
     order
   end
 

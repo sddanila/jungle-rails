@@ -1,3 +1,6 @@
+require 'dotenv'
+require 'dotenv-rails'
+
 module HttpAuthConcern extend ActiveSupport::Concern
   
   included do

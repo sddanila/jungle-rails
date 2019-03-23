@@ -38,6 +38,17 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
   config.web_console.whitelisted_ips = ['10.0.2.0/24']
+
+  # Ethereal server for testing confirmation email
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address              => 'smtp.ethereal.email',
+      :port                 => 587,
+      :domain               => 'ethereal.email',
+      :user_name            => 'eldridge.ebert@ethereal.email',
+      :password             => '3kXAkDeydf6RxMQfDQ',
+      :authentication => 'plain',
+      :enable_starttls_auto => true
+}
 end

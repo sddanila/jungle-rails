@@ -1,5 +1,7 @@
 class Admin::ProductsController < ApplicationController
-  include HttpAuthConcern
+
+  http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+  before_action :authenticate
   
   def index
     @products = Product.order(id: :desc).all
@@ -36,6 +38,11 @@ class Admin::ProductsController < ApplicationController
       :image,
       :price
     )
+  end
+
+  private
+  def authenticate
+    http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
   end
 
 end
