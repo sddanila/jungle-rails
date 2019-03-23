@@ -47,7 +47,10 @@
         <dl class="dl-horizontal">
           <% @product.reviews.order("created_at DESC").each do |review| %>
           <dt>Rating</dt>
-          <dd><%= review.rating %>/5</dd>
+          <dd><%= review.rating.to_i.times do |star| %>
+            ⭐
+            <% end %>
+          </dd>
           <dt>Review</dt>
           <dd><%= review.description %></dd>
             <% if current_user && current_user.id  == review.user_id %>
