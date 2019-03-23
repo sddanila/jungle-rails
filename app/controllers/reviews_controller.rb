@@ -5,14 +5,15 @@ class ReviewsController < ApplicationController
     @review = Review.new(allowed_params)
     @review.user_id = current_user.id
     @review.save!
-    redirect_to products_path(@review.products)
+    @product = Product.find(params[:product_id])
+    redirect_to @product
   end
 
   def destroy
     review = Review.find(params[:id])
-    product = Product.find(params[:product_id])
+    @product = Product.find(params[:product_id])
     review.destroy!
-    redirect_to products_path
+    redirect_to @product
   end
 
   def check_logged_in

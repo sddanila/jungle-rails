@@ -45,26 +45,30 @@
       
       <div class="col-sm-6 col-md-6">
         <dl class="dl-horizontal">
-          <% if @product.reviews %>
-            <h4>Product Reviews</h4>
-          <% end %>
-          <% @product.reviews.order("created_at DESC").each do |review| %>
-          <hr>
-          <dt>Rating</dt>
-          <dd><%= review.rating.to_i.times do |star| %>
-            ⭐
+          <div class="review">
+            <% if @product.reviews %>
+              <h4>Product Reviews</h4>
             <% end %>
-          </dd>
-          <dt>Review</dt>
-          <dd>
-          <%= review.description %>
-          </dd>
-          <% if current_user && current_user.id  == review.user_id %>
-          <%= link_to fa_icon("trash"), [@product, review], class: "btn btn-sm btn-danger delete-button", method: :delete, data: { confirm: "Are you sure?" } %>
-        <% end %>
-
-          <hr>
-          <% end %>
+            <% @product.reviews.reverse.each do |review| %>
+              <hr>
+              <dt>Rating</dt>
+              <dd><%= review.rating.to_i.times do |star| %>
+                ⭐
+                <% end %>
+                </dd>
+                <dt>Review</dt>
+                <dd>
+                <%= review.description %>
+                </dd>
+                  <% if current_user && current_user.id == review.user_id %>
+                    <p class="delete-button"><%= link_to fa_icon("trash"), 
+                          [@product, review], 
+                          class: "btn btn-sm btn-danger", 
+                          method: :delete, data: { confirm: "Are you sure?" } %></p>
+                  <% end %>
+              <hr>
+            <% end %>
+          </end>
         </dl>
       </div>
     </div>
