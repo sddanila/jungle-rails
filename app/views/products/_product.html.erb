@@ -8,10 +8,12 @@
   <p class="description">
     <%= product.description %>
   </p>
-  <p><% product.reviews.average(:rating).to_i.times do |star| %>
-    ⭐️
+  <% if product.reviews.average(:rating).to_i != 0 %>
+    <p id="rating">Rating: <% product.reviews.average(:rating).to_i.times do |star| %>
+      ⭐️
     <% end %>
-  </p>
+    </p>
+  <% end %>
   <footer class="actions">
     <%= button_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary' , method: :post do %>
       <%= fa_icon "shopping-cart", text: 'Add' %>

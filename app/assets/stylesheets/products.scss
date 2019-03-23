@@ -88,3 +88,16 @@ main section.products-show {
   margin-top: 15px;
   font-style: italic;
 }
+
+.btn-danger.delete-button{
+  position: absolute;
+  bottom: 3rem;
+  right: 2rem;
+}
+
+#rating{
+  position: absolute;
+  bottom: 5.5rem;
+  left: 1rem;
+  font-style: italic;
+}
