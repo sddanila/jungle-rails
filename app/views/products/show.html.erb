@@ -21,7 +21,7 @@
           <dt>Quantity</dt>
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
-          <dd><%= @product.price %></dd>
+          <dd>$<%= @product.price %></dd>
         </dl>
         <hr>
         <br>
@@ -29,22 +29,30 @@
 
       <div class="col-sm-8">
         <dl class="dl-horizontal">
-          <%= form_for([@product, @review]) do |f| %>
-            <%= f.hidden_field :product_id, value: @product.id %>
-            <%= f.number_field :rating %>
-            <%= f.text_field :description %>
-            <%= f.submit "Review" %>
-          <% end %>
+          <% if current_user %>
+            <%= form_for([@product, @review]) do |f| %>
+              <%= f.hidden_field :product_id, value: @product.id %>
+              <p><strong>Rate this product:</strong></p>
+              <%= f.select :rating, options_for_select([1, 2, 3, 4, 5]), class: 'form-control'%>
+              <p><strong>Comment on this product:</strong></p>
+              <%= f.text_area :description, class: 'form-control'%>
+              <br>
+              <%= f.submit "Review", class: 'btn btn-primary' %>
+            <% end %>
+          <% end%>
         </div>
       </div>
 
       <div class="col-sm-8">
         <dl class="dl-horizontal">
-          <% @product.reviews.each do |review| %>
+          <% @product.reviews.order("created_at DESC").each do |review| %>
           <dt>Rating</dt>
-          <dd><%= review.rating %></dd>
+          <dd><%= review.rating %>/5</dd>
           <dt>Review</dt>
           <dd><%= review.description %></dd>
+            <% if current_user && current_user.id  == review.user_id %>
+              <%= link_to fa_icon("trash"), [@product, review], class: "btn btn-sm btn-danger fas fa-trash-alt", method: :delete, data: { confirm: "Are you sure?" } %>
+            <% end %>
           <hr>
           <% end %>
         </dl>
