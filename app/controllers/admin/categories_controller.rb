@@ -1,6 +1,7 @@
 class Admin::CategoriesController < ApplicationController
-  http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
-  before_action :authenticate
+  include HttpAuthConcern
+  # http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+  # before_action :authenticate
   
   def index
     @categories = Category.all
@@ -28,8 +29,8 @@ class Admin::CategoriesController < ApplicationController
     )
   end
 
-  private
-  def authenticate
-    http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
-  end
+  # private
+  # def authenticate
+  #   http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+  # end
 end

@@ -44,6 +44,8 @@ group :development, :test do
   gem 'byebug'
   gem 'quiet_assets'
   gem 'dotenv-rails'
+  # Testing with RSPEC
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do
@@ -59,5 +61,6 @@ group :production do
   gem 'rails_12factor'
 end
 
-# For running tests
-gem 'test-helpers'
+group :test do
+  gem 'shoulda'
+end

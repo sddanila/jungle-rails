@@ -9,7 +9,7 @@ module HttpAuthConcern extend ActiveSupport::Concern
 
   def http_authenticate
     authenticate_or_request_with_http_basic do |username, password|
-      username == 'Jungle' && password == 'book'
+      username == ENV["ADMIN_USERNAME"] && password == ENV["ADMIN_PASSWORD"] 
     end
   end
 end

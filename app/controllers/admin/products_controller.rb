@@ -1,7 +1,7 @@
 class Admin::ProductsController < ApplicationController
-
-  http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
-  before_action :authenticate
+  include HttpAuthConcern
+  # http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+  # before_action :authenticate
   
   def index
     @products = Product.order(id: :desc).all
@@ -13,7 +13,6 @@ class Admin::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
     if @product.save
       redirect_to [:admin, :products], notice: 'Product created!'
     else
@@ -40,9 +39,9 @@ class Admin::ProductsController < ApplicationController
     )
   end
 
-  private
-  def authenticate
-    http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
-  end
+  # private
+  # def authenticate
+  #   http_basic_authenticate_with username: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+  # end
 
 end
