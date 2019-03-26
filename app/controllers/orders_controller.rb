@@ -58,6 +58,7 @@ class OrdersController < ApplicationController
       )
     end
     order.save!
+    
     order
   end
 
