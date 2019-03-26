@@ -17,8 +17,8 @@ RSpec.feature "ProductDetails", type: :feature, js: true do
   end
   scenario "navigates from the home page to the product detail page by clicking on a product" do
     # ACT
-    visit root_path
-    first(:link, 'Details').click
+    visit login_path
+    # first(:link, 'Details').click
 
     # DEBUG
     save_screenshot
