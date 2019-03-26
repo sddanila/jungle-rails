@@ -10,6 +10,7 @@ RSpec.describe Order, type: :model do
       @product2 = Product.create!(name: 'Toddler Motorbike', price: 40, quantity: 20, category: @category)
       # Setup at least one product that will NOT be in the order
       @product3 = Product.create!(name: 'Fluffy Moose', price: 5, quantity: 50, category: @category)
+      @product4 = Product.create!(name: 'Fluffy Moose', price: 5, quantity: 50, category: @category)
     end
     # pending test 1
     it 'deducts quantity from products based on their line item quantities' do
@@ -21,13 +22,13 @@ RSpec.describe Order, type: :model do
         product: @product1,
         quantity: 2,
         item_price: @product1.price_cents,
-        total_price: @product1.price
+        total_price: @product1.price * 2
       )
       @order.line_items.new(
         product: @product2,
         quantity: 4,
         item_price: @product2.price_cents,
-        total_price: @product2.price
+        total_price: @product2.price * 4
       )
       # 3. save! the order - ie raise an exception if it fails (not expected)
       @order.save!
@@ -35,16 +36,44 @@ RSpec.describe Order, type: :model do
       @product1.reload
       @product2.reload
       # 5. use RSpec expect syntax to assert their new quantity values
-      Product.update_product_quantity(@product1, 2)
+      @product1 = Product.update_product_quantity(@product1, 2)
       expect(@product1.quantity).to eq(28)
       # it 'should show product2 quantity to be 16 after placing order' do
-      #   quantity = @product2.update_product_quantity(@product2, 4)
-      #   expect(@product2.quantity).to eq(16)
+      @product2 = Product.update_product_quantity(@product2, 4)
+      expect(@product2.quantity).to eq(16)
       # end
     end
     # pending test 2
-    xit 'does not deduct quantity from products that are not in the order' do
-      # TODO: Implement based on hints in previous test
+    it 'does not deduct quantity from products that are not in the order' do
+      # TODO: Implement based on hints below
+      # 1. initialize order with necessary fields (see orders_controllers, schema and model definition for what is required)
+      @order = Order.new(total_cents: 20000, email: 'mazli@mazli.com', stripe_charge_id: 'id123')
+      # 2. build line items on @order
+      @order.line_items.new(
+        product: @product1,
+        quantity: 2,
+        item_price: @product1.price_cents,
+        total_price: @product1.price * 2
+      )
+      @order.line_items.new(
+        product: @product2,
+        quantity: 4,
+        item_price: @product2.price_cents,
+        total_price: @product2.price * 4
+      )
+      # 3. save! the order - ie raise an exception if it fails (not expected)
+      @order.save!
+      # 4. reload products to have their updated quantities
+      @product1.reload
+      @product2.reload
+      # 5. use RSpec expect syntax to assert their new quantity values
+      quantity = @product3.quantity
+      @product3 = Product.update_product_quantity(@product3)
+      expect(@product3.quantity).to eq(quantity)
+
+      quantity = @product4.quantity
+      @product4 = Product.update_product_quantity(@product4, nil)
+      expect(@product4.quantity).to eq(quantity)
     end
   end
 end

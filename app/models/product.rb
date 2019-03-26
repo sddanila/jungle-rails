@@ -11,9 +11,12 @@ class Product < ActiveRecord::Base
   validates :quantity, presence: true
   validates :category, presence: true
 
-  def self.update_product_quantity(product, quantity)
-    bought_product = Product.find_by(id: product.id)
-    bought_product.update_attribute(:quantity, -quantity)
-    return product
+  def self.update_product_quantity(product, quantity = 0)
+    return product unless quantity
+    # bought_product = Product.find_by(id: product.id)
+    product.update_attribute(:quantity, product.quantity - quantity)
+    # product.quantity -= quantity
+    # product.save
+    product
   end
 end
